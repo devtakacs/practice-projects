@@ -1,0 +1,47 @@
+# node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# dotenv environment variables
+.env
+.env.*.local
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Logs
+logs/
+*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Backup files
+backup/
+*.bak
+*~
+
+# Build output (if you have any transpilation)
+dist/
+build/
+
+# Misc
+coverage/
+.cache/
+*.swp
+*.swo
+*.tmp
+
+# Optional local config
+local-*.js
