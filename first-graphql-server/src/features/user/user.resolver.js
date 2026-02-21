@@ -42,6 +42,9 @@ const resolvers = {
 
             const newUser = { id: String(users.length + 1), email: input.email, gender: input.gender };
             users.push(newUser);
+
+            pubsub.publish('USER_CREATED', { userCreated: newUser });
+
             return newUser;
         },
         updateUser: (parent, { input }) => {
