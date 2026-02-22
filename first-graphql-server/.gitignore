@@ -45,3 +45,5 @@ coverage/
 
 # Optional local config
 local-*.js
+
+/src/generated/prisma
