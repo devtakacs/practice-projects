@@ -1,5 +1,6 @@
 const { GraphQLError } = require('graphql');
 const pubsub = require('../../shared/pubsub');
+const { isAuthorized, isAuthenticated } = require('../../shared/auth');
 
 // Data
 const users = [
@@ -12,9 +13,14 @@ const resolvers = {
     Query: {
         user: () => users[0],
         users: () => users,
+        me: (_, __, context) => {
+            isAuthenticated(context.user);
+            return context.user;
+        },
     },
     Mutation: {
-        createUser: (parent, { input }) => {
+        createUser: (parent, { input }, context) => {
+            isAuthenticated(context.user);
 
             // Basic validation
             if (!input.email) {
@@ -55,7 +61,8 @@ const resolvers = {
             users[userIndex].email = input.email;
             return users[userIndex];
         },
-        deleteUser: (parent, { id }) => {
+        deleteUser: (parent, { id }, context) => {
+            isAuthorized(context.user, 'admin'); // Only admin can delete users
             const userIndex = users.findIndex(user => user.id === id);
             if (userIndex === -1) {
                 return false;
