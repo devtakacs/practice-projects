@@ -17,28 +17,28 @@ const resolvers = {
         createUser: (parent, { input }) => {
 
             // Basic validation
-            if (!input.email || !input.password) {
-                throw new GraphQLError("Email and password are required", {
+            if (!input.email) {
+                throw new GraphQLError("Email is required", {
                     extensions: {
                         code: "BAD_USER_INPUT",
-                        invalidArgs: ["email", "password"],
+                        invalidArgs: ["email"],
                     }
                 });
             }
 
             // Sabitization steps
             email = input.email.trim().toLowerCase();
-            password = input.password.trim();
+            // password = input.password.trim();
             gender = input.gender?.toUpperCase();
 
-            if (input.password.length < 8) {
-                throw new GraphQLError("Password must be at least 8 characters long", {
-                    extensions: {
-                        code: "BAD_USER_INPUT",
-                        invalidArgs: ["password"],
-                    }
-                });
-            }
+            // if (input.password.length < 8) {
+            //     throw new GraphQLError("Password must be at least 8 characters long", {
+            //         extensions: {
+            //             code: "BAD_USER_INPUT",
+            //             invalidArgs: ["password"],
+            //         }
+            //     });
+            // }
 
             const newUser = { id: String(users.length + 1), email: input.email, gender: input.gender };
             users.push(newUser);
