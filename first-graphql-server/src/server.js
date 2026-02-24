@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { createServer } = require('http');
@@ -6,6 +7,8 @@ const { execute, subscribe } = require('graphql');
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 const schema = require('./schema/local.schema');
 const { getUserFromToken } = require('./shared/auth');
+
+const { PORT } = require('./config');
 
 async function startServer() {
     const app = express();
@@ -33,9 +36,9 @@ async function startServer() {
         }
     );
 
-    httpServer.listen(4000, () => {
-        console.log(`Server is running at http://localhost:4000${apolloServer.graphqlPath}`);
-        console.log(`Subscriptions are running at ws://localhost:4000${apolloServer.graphqlPath}`);
+    httpServer.listen(PORT, () => {
+        console.log(`Server is running at http://localhost:${PORT}${apolloServer.graphqlPath}`);
+        console.log(`Subscriptions are running at ws://localhost:${PORT}${apolloServer.graphqlPath}`);
     });
 }
 
