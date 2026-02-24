@@ -1,6 +1,13 @@
 const { GraphQLError } = require('graphql');
 const pubsub = require('../../shared/pubsub');
 const { isAuthorized, isAuthenticated } = require('../../shared/auth');
+const { PrismaClient } = require('@prisma/client');
+const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3');
+require('dotenv').config();
+const connectionString = `${process.env.DATABASE_URL}`;
+
+const adapter = new PrismaBetterSqlite3({ url: connectionString });
+const prisma = new PrismaClient({ adapter });
 
 // Data
 const users = [
@@ -12,7 +19,8 @@ const users = [
 const resolvers = {
     Query: {
         user: () => users[0],
-        users: () => users,
+        // users: () => users,
+        users: () => prisma.user.findMany(),
         me: (_, __, context) => {
             isAuthenticated(context.user);
             return context.user;
@@ -46,7 +54,13 @@ const resolvers = {
             //     });
             // }
 
-            const newUser = { id: String(users.length + 1), email: input.email, gender: input.gender };
+            // const newUser = { id: String(users.length + 1), email: input.email, gender: input.gender };
+            const newUser = prisma.user.create({
+                data: {
+                    email,
+                    gender,
+                },
+            });
             users.push(newUser);
 
             pubsub.publish('USER_CREATED', { userCreated: newUser });
