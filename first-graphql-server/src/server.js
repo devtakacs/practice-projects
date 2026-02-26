@@ -14,11 +14,20 @@ async function startServer() {
     const app = express();
     app.use(cors());
     
-    const apolloServer = new ApolloServer({schema, context: ({ req }) => {
-        const token = req.headers.authorization || '';
-        const user = getUserFromToken(token.replace('Bearer ', ''));
-        return { user };
-    }});
+    const apolloServer = new ApolloServer({
+        schema,
+        context: ({ req }) => {
+            const token = req.headers.authorization || '';
+            const user = getUserFromToken(token.replace('Bearer ', ''));
+            return { user };
+        },
+        // make sure introspection (and the Playground) are available even
+        // in production environments.  Apollo Server automatically disables
+        // them when NODE_ENV==='production', which is likely why Apollo
+        // Studio complained.
+        introspection: true,
+        playground: true,
+    });
     await apolloServer.start();
 
     apolloServer.applyMiddleware({ app });
