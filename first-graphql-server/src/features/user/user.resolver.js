@@ -18,9 +18,15 @@ const users = [
 // Resolvers
 const resolvers = {
     Query: {
-        user: () => users[0],
+        user: () => { 
+            console.log('users resolver called at', new Date().toISOString());
+            return users[0]; 
+        },
         // users: () => users,
-        users: () => prisma.user.findMany(),
+        users: () => {
+            console.log('users resolver called at', new Date().toISOString());
+            return prisma.user.findMany();
+        },
         me: (_, __, context) => {
             isAuthenticated(context.user);
             return context.user;
