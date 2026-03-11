@@ -27,6 +27,26 @@ async function startServer() {
         // Studio complained.
         introspection: true,
         playground: true,
+        plugins: [
+            {
+                async requestDidStart() {
+                    return {
+                        async executionDidStart() {
+                            return {
+                                willResolveField({ info }) {
+                                    const fieldName = info.fieldName;
+                                    const start = Date.now();
+                                    return () => {
+                                        const duration = Date.now() - start;
+                                        console.log(`Field ${fieldName} resolved in ${duration}ms`);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        ]
     });
     await apolloServer.start();
 
