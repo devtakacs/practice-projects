@@ -2,6 +2,7 @@ const { GraphQLError } = require('graphql');
 const pubsub = require('../../shared/pubsub');
 const { isAuthorized, isAuthenticated } = require('../../shared/auth');
 const { PrismaClient } = require('@prisma/client');
+const { ApolloError } = require('apollo-server-errors');
 const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3');
 require('dotenv').config();
 const connectionString = `${process.env.DATABASE_URL}`;
@@ -18,9 +19,25 @@ const users = [
 // Resolvers
 const resolvers = {
     Query: {
-        user: () => { 
-            console.log('users resolver called at', new Date().toISOString());
-            return users[0]; 
+        user: (_, { id }) => { 
+            if (id === 'unauth') { 
+                throw new ApolloError("Unauthorized access", {
+                    extensions: {
+                        code: "UNAUTHORIZED",
+                    }
+                });
+            }
+            const user = users.find(user => user.id === id);
+            if (!user) {
+                throw new ApolloError("User not found", {
+                    extensions: {
+                        code: "NOT_FOUND",
+                        status: 404,
+                        reason: "The user with the specified ID does not exist",
+                    }
+                });
+            }
+            return user;
         },
         // users: () => users,
         users: () => {
