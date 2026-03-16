@@ -11,6 +11,7 @@ const schema = require('./schema/local.schema');
 const { getUserFromToken } = require('./shared/auth');
 
 const { PORT } = require('./config');
+const logger = require('./logger');
 
 const limiter = ratelimit({
     windowMs: 10 * 1000, // 10 seconds
@@ -34,6 +35,15 @@ async function startServer() {
         // them when NODE_ENV==='production', which is likely why Apollo
         // Studio complained.
         introspection: true,
+        formatError: (err) => {
+            logger.error( {
+                message: err.message,
+                locations: err.locations,
+                path: err.path,
+                timestamp: new Date().toISOString(),
+            } );
+            return { message: err.message, code: err.extensions?.code || 'INTERNAL_SERVER_ERROR' };
+        },
         playground: true,
         plugins: [
             {
