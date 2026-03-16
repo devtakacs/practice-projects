@@ -33,10 +33,21 @@ input UpdateUserInput {
     email: Email
 }
 
+type PageInfo {
+    endCursor: ID
+    hasNextPage: Boolean!
+}
+
+type UserConnection {
+    users: [User!]!
+    pageInfo: PageInfo!
+}
+
 type Query {
     user: User
     users: [User] @cacheControl(maxAge: 60, scope: PUBLIC)
     me: User
+    paginatedUsers(take: Int!, after: ID): UserConnection!
 }
 
 type Mutation {

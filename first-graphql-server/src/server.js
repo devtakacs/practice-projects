@@ -5,14 +5,22 @@ const { createServer } = require('http');
 const { ApolloServer } = require('apollo-server-express');
 const { execute, subscribe } = require('graphql');
 const { SubscriptionServer } = require('subscriptions-transport-ws');
+const ratelimit = require('express-rate-limit');
+
 const schema = require('./schema/local.schema');
 const { getUserFromToken } = require('./shared/auth');
 
 const { PORT } = require('./config');
 
+const limiter = ratelimit({
+    windowMs: 10 * 1000, // 10 seconds
+    max: 5, // limit each IP to 5 requests per windowMs
+    keyGenerator: (req) => req.headers['x-user-id'] || req.ip, // use user ID from header or fallback to IP
+});
+
 async function startServer() {
     const app = express();
-    app.use(cors());
+    app.use(limiter);
     
     const apolloServer = new ApolloServer({
         schema,
