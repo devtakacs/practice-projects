@@ -13,8 +13,10 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@apollo/gateway": "^2.13.2",
     "@apollo/server": "^5.3.0",
     "@apollo/server-plugin-response-cache": "^5.0.0",
+    "@apollo/subgraph": "^2.13.2",
     "@graphql-tools/load": "^8.1.8",
     "@graphql-tools/load-files": "^7.0.1",
     "@graphql-tools/merge": "^9.1.7",
