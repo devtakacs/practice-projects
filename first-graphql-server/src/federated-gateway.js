@@ -1,29 +1,20 @@
 const { ApolloServer } = require('@apollo/server');
 const { startStandaloneServer } = require('@apollo/server/standalone');
-const { stitchSchemas } = require('@graphql-tools/stitch');
-const localSchema = require('./local.schema');
-const createRemoteSchema = require('./remote.schema');
+const { ApolloGateway, IntrospectAndCompose } = require('@apollo/gateway');
 
-async function startGateway() {
-    const remoteSchema = await createRemoteSchema();
-
-    const gatewaySchema = stitchSchemas({
-        subschemas: [
-            { schema: localSchema },
-            { schema: remoteSchema },
+const gateway = new ApolloGateway({
+    supergraphSdl: new IntrospectAndCompose({
+        subgraphs: [
+            { name: 'users', url: 'http://localhost:4001/graphql' },
+            { name: 'addresses', url: 'http://localhost:4002/graphql' },
         ],
-    });
+    }),
+});
 
-    const server = new ApolloServer({ schema: gatewaySchema });
+const server = new ApolloServer({ gateway });
 
-    startStandaloneServer(server, {
-        listen: { port: 4000 },
-    }).then(({ url }) => {
-        console.log(`Server ready at: ${url}`);
-    });
-}
-
-startGateway().catch(error => {
-    console.error('Error starting gateway:', error);
-    process.exit(1);
+startStandaloneServer(server, {
+    listen: { port: 4000 },
+}).then(({ url }) => {
+    console.log(`🚀 Gateway ready at ${url}`);
 });
