@@ -1,11 +1,14 @@
 const { ApolloServer } = require('@apollo/server');
 const { startStandaloneServer } = require('@apollo/server/standalone');
 const { buildSubgraphSchema } = require('@apollo/subgraph');
-const { loadFileSync } = require('graphql-import-node');
+const { parse } = require('graphql');
+const fs = require('fs');
+const path = require('path');
 const { ApolloServerPluginUsageReportingDisabled, ApolloServerPluginInlineTraceDisabled, ApolloServerPluginSchemaReportingDisabled } = require('@apollo/server/plugin/disabled');
 
 const resolvers = require('./address.resolver');
-const typeDefs = loadFileSync(__dirname, '/address.graphql');
+const typeDefsSDL = fs.readFileSync(path.join(__dirname, 'address.graphql'), 'utf8');
+const typeDefs = parse(typeDefsSDL);
 
 const server = new ApolloServer({
     schema: buildSubgraphSchema({ typeDefs, resolvers }),
