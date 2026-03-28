@@ -10,6 +10,9 @@ const resolvers = {
         addresses: () => addresses,
         searchAddresses: () => addresses,
     },
+    User : {
+        addresses:(user) => addresses,
+    },
     Address: {
         __resolveType(obj, context, info) {
             if (obj.landmark) {
