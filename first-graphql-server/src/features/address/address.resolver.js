@@ -24,9 +24,8 @@ const resolvers = {
         searchAddresses: () => addresses,
     },
     Address: {
-        locationDetails: (address) => {
-            console.log('Resolving locationDetails for:', address.locationId);
-            return locationData[address.locationId];
+        locationDetails: (address, _, context) => {
+            return context.loaders.locationLoader.load(address.locationId);
         },
         __resolveType(obj, context, info) {
             if (obj.landmark) {

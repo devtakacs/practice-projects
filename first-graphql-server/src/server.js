@@ -6,6 +6,7 @@ const { ApolloServer } = require('apollo-server-express');
 const { execute, subscribe } = require('graphql');
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 const ratelimit = require('express-rate-limit');
+const { createLocationLoader } = require('./features/address/locationLoader');
 
 const schema = require('./schema/local.schema');
 const { getUserFromToken } = require('./shared/auth');
@@ -28,7 +29,12 @@ async function startServer() {
         context: ({ req }) => {
             const token = req.headers.authorization || '';
             const user = getUserFromToken(token.replace('Bearer ', ''));
-            return { user };
+            return { 
+                user,
+                loaders: {
+                    locationLoader: createLocationLoader(),
+                }
+             };
         },
         // make sure introspection (and the Playground) are available even
         // in production environments.  Apollo Server automatically disables
