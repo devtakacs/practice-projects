@@ -7,6 +7,7 @@ const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3');
 require('dotenv').config();
 const connectionString = `${process.env.DATABASE_URL}`;
 const userModel = require('../../../mongodb/user.model');
+const fetch = require('cross-fetch');
 
 const adapter = new PrismaBetterSqlite3({ url: connectionString });
 const prisma = new PrismaClient({ adapter });
@@ -44,7 +45,14 @@ const resolvers = {
         users: async () => {
             console.log('users resolver called at', new Date().toISOString());
             // return prisma.user.findMany();
-            return await userModel.find();
+            // return await userModel.find();
+            const response = await fetch('https://jsonplaceholder.typicode.com/users');
+            const json = await response.json();
+            return json.map(user => ({
+                id: user.id,
+                email: user.email || 'unknown',
+                gender: 'OTHER'
+            }));
         },
         me: (_, __, context) => {
             isAuthenticated(context.user);
