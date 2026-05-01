@@ -6,6 +6,7 @@ const { ApolloError } = require('apollo-server-errors');
 const { PrismaBetterSqlite3 } = require('@prisma/adapter-better-sqlite3');
 require('dotenv').config();
 const connectionString = `${process.env.DATABASE_URL}`;
+const userModel = require('../../../mongodb/user.model');
 
 const adapter = new PrismaBetterSqlite3({ url: connectionString });
 const prisma = new PrismaClient({ adapter });
@@ -40,9 +41,10 @@ const resolvers = {
             return user;
         },
         // users: () => users,
-        users: () => {
+        users: async () => {
             console.log('users resolver called at', new Date().toISOString());
-            return prisma.user.findMany();
+            // return prisma.user.findMany();
+            return await userModel.find();
         },
         me: (_, __, context) => {
             isAuthenticated(context.user);
