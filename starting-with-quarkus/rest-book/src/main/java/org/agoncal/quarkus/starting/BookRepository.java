@@ -1,0 +1,28 @@
+package org.agoncal.quarkus.starting;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+
+import java.util.List;
+import java.util.Optional;
+
+@ApplicationScoped
+public class BookRepository {
+
+    public List<Book> getAllBooks() {
+        return List.of(
+                new Book(1, "Book 1", "Author 1", 2026, "Test genre 1"),
+                new Book(2, "Book 2", "Author 2", 2026, "Test genre 2")
+        );
+    }
+
+    public int countAllBooks() {
+        return getAllBooks().size();
+    }
+
+    public Optional<Book> getBook(@PathParam("id") int id) {
+        return getAllBooks().stream().filter(book -> book.id == id).findFirst();
+    }
+
+}
