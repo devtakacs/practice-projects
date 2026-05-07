@@ -46,6 +46,6 @@ class BookResourceTest {
                 .body("title", is("Book 1"))
                 .body("author", is("Author 1"))
                 .body("yearOfPublication", is(2026))
-                .body("genre", is("Test genre 1"));;
+                .body("genre", is("IT"));;
     }
 }
