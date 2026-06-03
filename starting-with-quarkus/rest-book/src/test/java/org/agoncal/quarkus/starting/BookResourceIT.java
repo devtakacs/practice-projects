@@ -1,8 +1,8 @@
 package org.agoncal.quarkus.starting;
 
-import io.quarkus.test.junit.NativeImageTest;
+import io.quarkus.test.junit.QuarkusIntegrationTest;
 
-@NativeImageTest
+@QuarkusIntegrationTest
 class BookResourceIT extends BookResourceTest {
     // Execute the same tests but in packaged mode.
 }
