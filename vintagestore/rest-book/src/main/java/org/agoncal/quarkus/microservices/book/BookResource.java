@@ -26,7 +26,7 @@ public class BookResource {
     )
     public Response createABook(@FormParam("title") String title, @FormParam("author") String author, @FormParam("year") int yearOfPublication, @FormParam("author") String genre) {
         Book book = new Book();
-        book.isbn13 = "We will get it later from the Number micorservice";
+        book.isbn13 = "13-We will get it later from the Number micorservice";
         book.title = title;
         book.author = author;
         book.yearOfPublication = yearOfPublication;
