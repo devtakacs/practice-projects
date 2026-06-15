@@ -54,6 +54,11 @@
             <artifactId>resteasy-client</artifactId>
             <version>6.2.16.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.microprofile.rest.client</groupId>
+            <artifactId>microprofile-rest-client-api</artifactId>
+            <version>4.0</version>
+        </dependency>
         <!-- No MicroProfile Rest Client extension added: the project uses the local NumberProxy class
              (HTTP client wrapper) so no MP Rest Client annotations are required. Keeping the code
              as-is is the simplest option for the course project. -->

@@ -17,9 +17,11 @@ public class NumberProxyProducer {
     @Produces
     @RestClient
     public NumberProxy numberProxy() {
-        ResteasyClient client = new ResteasyClientBuilder().build();
+        // ResteasyClientBuilder is abstract; use the provided newBuilder() factory
+        ResteasyClient client = (ResteasyClient) ResteasyClientBuilder.newBuilder().build();
         ResteasyWebTarget target = client.target(baseUri);
         return target.proxy(NumberProxy.class);
     }
 }
+
 

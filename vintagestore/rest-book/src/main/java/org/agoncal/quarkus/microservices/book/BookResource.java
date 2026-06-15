@@ -30,7 +30,7 @@ public class BookResource {
             summary = "Creates a book",
             description = "Creates a book with ISBN number"
     )
-    public Response createABook(@FormParam("title") String title, @FormParam("author") String author, @FormParam("year") int yearOfPublication, @FormParam("author") String genre) {
+    public Response createABook(@FormParam("title") String title, @FormParam("author") String author, @FormParam("year") int yearOfPublication, @FormParam("genre") String genre) {
         Book book = new Book();
         book.isbn13 = proxy.generateIsbnNumbers().isbn13;
         book.title = title;
