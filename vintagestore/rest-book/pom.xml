@@ -47,6 +47,16 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy</artifactId>
         </dependency>
+        <!-- Add RESTEasy client to allow creating a client proxy for the MP-style interface
+             without adding the Quarkus MP Rest Client extension (keeps source matching course examples). -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-client</artifactId>
+            <version>6.2.16.Final</version>
+        </dependency>
+        <!-- No MicroProfile Rest Client extension added: the project uses the local NumberProxy class
+             (HTTP client wrapper) so no MP Rest Client annotations are required. Keeping the code
+             as-is is the simplest option for the course project. -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit</artifactId>
