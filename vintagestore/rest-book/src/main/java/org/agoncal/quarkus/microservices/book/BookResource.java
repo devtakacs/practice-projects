@@ -16,7 +16,6 @@ import java.time.Instant;
 @Tag(name="Book REST endpoint")
 public class BookResource {
 
-    @Inject
     @RestClient
     NumberProxy proxy;
 
