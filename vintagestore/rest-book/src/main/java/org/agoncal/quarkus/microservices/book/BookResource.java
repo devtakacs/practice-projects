@@ -37,18 +37,27 @@ public class BookResource {
     @Retry(maxRetries = 3, delay = 1000)
     @Fallback(fallbackMethod = "fallbackOnCreatingABook")
     public Response createABook(@FormParam("title") String title, @FormParam("author") String author, @FormParam("year") int yearOfPublication, @FormParam("genre") String genre) {
-        Book book = new Book();
-        book.isbn13 = proxy.generateIsbnNumbers().isbn13;
-        book.title = title;
-        book.author = author;
-        book.yearOfPublication = yearOfPublication;
-        book.genre = genre;
-        book.creationDate = Instant.now();
-        logger.info("Book created");
-        return Response.status(201).entity(book).build();
+        try {
+            logger.info("Attempting to generate ISBN from: " + proxy.getClass().getName());
+            Book book = new Book();
+            IsbnThirteen isbnResponse = proxy.generateIsbnNumbers();
+            logger.info("ISBN generated successfully: " + isbnResponse);
+            book.isbn13 = isbnResponse.isbn13;
+            book.title = title;
+            book.author = author;
+            book.yearOfPublication = yearOfPublication;
+            book.genre = genre;
+            book.creationDate = Instant.now();
+            logger.info("Book created with ISBN: " + book.isbn13);
+            return Response.status(201).entity(book).build();
+        } catch (Exception e) {
+            logger.error("Error creating book: " + e.getMessage(), e);
+            throw e;
+        }
     }
 
     public Response fallbackOnCreatingABook(String title, String author, int yearOfPublication, String genre) throws FileNotFoundException {
+        logger.warn("Fallback triggered - ISBN generation failed");
         Book book = new Book();
         book.isbn13 = "Will be set later";
         book.title = title;
