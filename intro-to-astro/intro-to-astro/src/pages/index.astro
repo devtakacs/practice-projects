@@ -1,7 +1,13 @@
 ---
-
+const pageTitle = "Astro demo";
+const pages = ['Home', 'Blog', 'About us', 'Contact us'];
+const currentUser = {
+	name: 'John Doe',
+	isAdmin: true,
+};
 ---
 
+<!-- template section -->
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
@@ -9,9 +15,28 @@
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>{pageTitle}</title>
 	</head>
 	<body>
-		<h1>Astro Demo</h1>
+		<h1>Astro</h1>
+		<ul>
+			{pages.map((page) => <li>{page}</li>)}
+		</ul>
+		<p>Welcome, {currentUser.name}!</p>
+		{
+			currentUser.isAdmin && (
+				<section class="admin-panel">
+					<h3>Admin Control Panel</h3>
+					<p>Admin functionality goes here.</p>
+				</section>
+			)
+		}
 	</body>
 </html>
+
+<style is:global>
+	.admin-panel {
+		border: 2px solid #800000;
+		padding: 1rem;
+	}
+</style>
