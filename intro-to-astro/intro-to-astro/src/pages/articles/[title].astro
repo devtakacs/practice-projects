@@ -1,0 +1,30 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../layouts/Layout.astro";
+export const getStaticPaths = (() => {
+    // Hard-coded article data for demo purposes
+    const articles = [
+        { 
+            title: "learning-javascript",
+            content: "This is an article about learning JavaScript."
+        }, 
+        { 
+            title: "the-basics-of-python",
+            content: "Python is a dynamic programming language that is widely used for web development, data analysis, and more."
+        }
+    ];
+        
+    return articles.map((article) => ({
+        params: { title: article.title },
+        props: { article },
+    }));
+}) satisfies GetStaticPaths;
+
+const { title } = Astro.params;
+const { article } = Astro.props;
+---
+
+<Layout pageTitle={article.title}>
+    <h1>{title}</h1>
+    <p>{article.content}</p>
+</Layout>
