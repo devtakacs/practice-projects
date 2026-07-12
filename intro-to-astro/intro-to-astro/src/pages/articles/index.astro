@@ -1,0 +1,33 @@
+---
+import Layout from "../../layouts/Layout.astro";
+   
+const articles = [
+    {
+        id: '1',
+        title: "Learning JavaScript",
+        slug: "learning-javascript",
+        content: "This is an article about learning JavaScript."
+    }, 
+    {
+        id: '2',
+        title: "The Basics of Python",
+        slug: "the-basics-of-python",
+        content: "Python is a dynamic programming language that is widely used for web development, data analysis, and more."
+    }
+];
+---
+
+<Layout pageTitle="Articles">
+    <h1>Articles</h1>
+    <section>
+        {
+            articles.map((article) => (
+                <p>
+                    <a href={`/articles/${article.id}-${article.slug}`}>
+                        {article.title}
+                    </a>
+                </p>
+            ))
+        }
+    </section>
+</Layout>
