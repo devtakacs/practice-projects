@@ -20,3 +20,18 @@ const currentUser = {
 
 <script src="../scripts/index.ts"></script>
 <script src="/external-script.js" is:inline></script> 
+
+<!-- https://github.com/withastro/astro/blob/main/examples/framework-multiple/src/styles/global.css -->
+<style is:global>
+	.counter {
+	display: grid;
+	font-size: 2em;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	margin-top: 2em;
+	place-items: center;
+}
+
+.counter-message {
+	text-align: center;
+}
+</style>
