@@ -1,3 +1,5 @@
+// https://github.com/withastro/astro/blob/main/examples/framework-multiple/src/components/react/ReactCounter.tsx
+
 /** @jsxImportSource react */
 
 import { type ReactNode, useState } from 'react';

@@ -1,3 +1,5 @@
+<!-- https://github.com/withastro/astro/blob/main/examples/framework-multiple/src/components/vue/VueCounter.vue -->
+
 <template>
 	<!--
 		Seeing type errors on the word `class`?

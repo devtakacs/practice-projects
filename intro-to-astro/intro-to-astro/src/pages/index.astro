@@ -1,6 +1,8 @@
 ---
 import UserPanel from "../components/UserPanel.astro";
 import Layout from "../layouts/Layout.astro";
+import { Counter as ReactCounter } from "../components/ReactCounter.tsx";
+import VueCounter from "../components/VueCounter.vue";
 
 const pages = ['Home', 'Blog', 'About us', 'Contact us'];
 const currentUser = {
@@ -11,11 +13,13 @@ const currentUser = {
 
 <Layout pageTitle = "Astro demo">
 	<h1>Astro</h1>
-		<button>Click me</button>
-		<ul>
-			{pages.map((page) => <li>{page}</li>)}
-		</ul>
-		<UserPanel userName={currentUser.name} isAdminUser={currentUser.isAdmin} />
+	<ReactCounter><h3>This is a React Island</h3></ReactCounter>
+	<VueCounter><h3>This is a Vue Island</h3></VueCounter>
+	<button>Click me</button>
+	<ul>
+		{pages.map((page) => <li>{page}</li>)}
+	</ul>
+	<UserPanel userName={currentUser.name} isAdminUser={currentUser.isAdmin} />
 </Layout>
 
 <script src="../scripts/index.ts"></script>
