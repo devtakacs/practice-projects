@@ -1,7 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import type { MarkdownInstance } from "astro";
 
-const posts = await Astro.glob('./*.md');
+const postFiles = import.meta.glob<MarkdownInstance<Record<string, any>>>('./*.md', { eager: true });
+const posts = Object.values(postFiles);
 ---
 
 <Layout pageTitle="Posts">
