@@ -13,8 +13,8 @@ const currentUser = {
 
 <Layout pageTitle = "Astro demo">
 	<h1>Astro</h1>
-	<ReactCounter><h3>This is a React Island</h3></ReactCounter>
-	<VueCounter><h3>This is a Vue Island</h3></VueCounter>
+	<ReactCounter client:only="react"><h3>This is a React Island</h3></ReactCounter>
+	<VueCounter client:only="vue"><h3>This is a Vue Island</h3></VueCounter>
 	<button>Click me</button>
 	<ul>
 		{pages.map((page) => <li>{page}</li>)}
