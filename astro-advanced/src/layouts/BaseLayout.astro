@@ -1,5 +1,14 @@
 ---
+import VerticalMenu from '../components/VerticalMenu.astro';
 import '../styles/global.css';
+
+const menuOptions = [
+    { label: 'Home', url: '' },
+    { label: 'Content collections', url: 'collections' },
+    { label: 'Endpoints', url: 'endpoints' },
+    { label: 'Form submissions', url: 'forms' },
+    { label: 'HTML streaming', url: 'streaming' },
+];
 ---
 
 <html lang="en">
@@ -13,7 +22,9 @@ import '../styles/global.css';
 	</head>
 	<body>
         <div class="container">
-            <nav class="navigation"></nav>
+            <nav class="navigation">
+                <VerticalMenu options={menuOptions} activeOptionUrl='endpoints' />
+            </nav>
             <main>
                 <slot />
             </main>
@@ -33,7 +44,7 @@ import '../styles/global.css';
         flex: 0.25 0.25 0;
     }
 
-    .main {
+    main {
         flex: 0.75 0.75 0;
         border: 2px solid #800008;
         padding: 1rem;
