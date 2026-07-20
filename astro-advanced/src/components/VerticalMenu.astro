@@ -17,7 +17,7 @@ const activeMenuOptionColor = '#faf9f6';
     {
         options.map(({label, url}) => (
             <li>
-                <a class:list={['menu-item', { active: url === activeOptionUrl }]} href={`${url}`}>
+                <a class:list={['menu-item', { active: url === activeOptionUrl }]} href={`/${url}`}>
                     {label}
                 </a>
             </li>
